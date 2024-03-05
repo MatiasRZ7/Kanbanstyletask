@@ -6,7 +6,7 @@ import { useDrag } from 'react-dnd'
 const ToDo = ({task, index, taskList, setTaskList }) => {
     const [time, setTime] = useState(JSON.parse(localStorage.getItem(`timer${index}`)) || 0);
     const [running, setRunning] = useState(false);
-    const [{isDragging}, drag] = useDrag(() => ({
+    const [, drag] = useDrag(() => ({
         type: "todo",
         item: {
             id: index,
@@ -20,7 +20,7 @@ const ToDo = ({task, index, taskList, setTaskList }) => {
         })
 
     }));
-
+    
 
     useEffect(() => {
         let interval;
@@ -45,7 +45,10 @@ const ToDo = ({task, index, taskList, setTaskList }) => {
         const newTaskList = [...taskList];
         newTaskList.splice(index, 1);
         setTaskList(newTaskList);
+        localStorage.setItem("taskList", JSON.stringify(newTaskList));
+        
     }
+    
   return (
     <div className='flex flex-col items-start justify-start bg-white my-4 ml-6 py-4 px-6 w-3/4
     max-w-lg' ref={drag}>
